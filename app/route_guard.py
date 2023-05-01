@@ -1,7 +1,6 @@
 from flask import jsonify, request, g
 from app import app
 import jwt
-from jwt import DecodeError, ExpiredSignatureError, InvalidSignatureError
 
 from functools import wraps
 
@@ -24,14 +23,8 @@ def auth_required(*roles_required):
                 if roles_required:
                     if role not in roles_required:
                         return jsonify({"message": "Unauthorized to perform action"}), 401
-            except ExpiredSignatureError:
-                return jsonify({"message": "Expired or Invalid Token"}), 401
-            except InvalidSignatureError:
-                return jsonify({"message": "Invalid Token"}), 401
-            except DecodeError:
-                return jsonify({"message": "Malformed Token"}), 401
             except Exception as e:
-                return jsonify({"message": "Unknown Error"}), 401
+                return jsonify({"message": str(e)}), 401
             g.user = User.get_by_id(auth_id)
             return f(*args, **kwargs)
         return decorated

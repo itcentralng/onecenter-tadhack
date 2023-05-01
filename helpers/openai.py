@@ -22,3 +22,31 @@ def chatGPT(history):
         ]+[{"role": h.role, "content": h.content} for h in history]
         )
     return completion.choices[0].message
+
+def rewrite(text):
+    completion = openai.ChatCompletion.create(
+        model="gpt-3.5-turbo",
+        messages=[
+            {
+                "role": "system", 
+                "content": """
+                You are a helpful assistant. 
+                You take text from users and return a reprashed version of the text with clear message.
+                """
+            },
+            {
+                "role": "assistant", 
+                "content": "What text should I rephrase for you?"
+            },
+            {
+                "role": "user", 
+                "content": text
+            },
+            ]
+        )
+    return completion.choices[0].message
+
+def transcribe(audio_path):
+    audio_file= open(audio_path, "rb")
+    transcript = openai.Audio.transcribe("whisper-1", audio_file)
+    return transcript.get('text')

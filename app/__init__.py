@@ -27,6 +27,8 @@ from app.user.controller import bp as user_bp
 app.register_blueprint(user_bp)
 from app.call.controller import bp as call_bp
 app.register_blueprint(call_bp)
+from app.review.controller import bp as review_bp
+app.register_blueprint(review_bp)
 
 # Error handlers
-from .error_handlers import *
+# from .error_handlers import *
