@@ -31,4 +31,4 @@ from app.review.controller import bp as review_bp
 app.register_blueprint(review_bp)
 
 # Error handlers
-# from .error_handlers import *
+from .error_handlers import *
