@@ -22,6 +22,7 @@ def create_review():
         response = make_response(speech)
         response.headers['Content-Type'] = 'application/octet-stream'  # Set the content type to octet-stream
         response.headers['Review-Id'] = str(review.id)  # Add the integer as a custom header
+        response.headers['Access-Control-Expose-Headers'] = 'Review-Id'
         return response, 201
     return {'status':'error', 'message':'name, email & company required'}, 400
 
