@@ -17,7 +17,7 @@ def create_review():
     company = request.json.get('company')
     if name and email and company:
         review = Review.create(name, email, company)
-        text = f"Hello {name.split()[0]}, thank you for joining the wait list. Tell us your experience with {company}."
+        text = f"Hello {name.split()[0]}, thank you for joining the wait list. In 30 seconds, tell us your experience with {company}."
         speech = vocalize(text)
         response = make_response(speech)
         response.headers['Content-Type'] = 'application/octet-stream'  # Set the content type to octet-stream
