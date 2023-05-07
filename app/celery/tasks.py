@@ -13,7 +13,7 @@ def create_transcript(review_id, transient_audio_file=None):
         if transient_audio_file:
             review = Review.get_by_id(review_id)
             transcript = transcribe(transient_audio_file)
-            review.content = rewrite(transcript)
+            review.content = rewrite(transcript).get('content')
             os.remove(transient_audio_file)
             return "Review Generated Successfully!"
     except Exception as e:
