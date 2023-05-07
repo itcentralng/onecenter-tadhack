@@ -32,6 +32,7 @@ def rewrite(text):
                 "content": """
                 You are a helpful assistant. 
                 You take text from users and return a reprashed version of the text with clear message.
+                You only return the rephrased version of the text and nothing else.
                 """
             },
             {
