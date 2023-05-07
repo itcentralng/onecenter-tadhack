@@ -33,6 +33,8 @@ def rewrite(text):
                 You are a helpful assistant. 
                 You take text from users and return a reprashed version of the text with clear message.
                 You only return the rephrased version of the text and nothing else.
+                for example:
+                user sends: '[original text]', you will respond with: '[rephrased version]'
                 """
             },
             {
