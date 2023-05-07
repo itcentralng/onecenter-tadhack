@@ -33,7 +33,7 @@ class Review(db.Model):
     
     @classmethod
     def get_all(cls):
-        return cls.query.filter_by(is_deleted=False).all()
+        return cls.query.filter(cls.is_deleted==False, cls.content!='', cls.content!=None).all()
     
     @classmethod
     def create(cls, name, email, company, content=None):
