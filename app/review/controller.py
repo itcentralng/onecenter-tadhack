@@ -16,14 +16,22 @@ def create_review():
     email = request.json.get('email')
     company = request.json.get('company')
     if name and email and company:
-        review = Review.create(name, email, company)
-        text = f"Hello {name.split()[0]}, thank you for joining the wait list. In 30 seconds, tell us your experience with {company}."
-        speech = vocalize(text)
-        response = make_response(speech)
-        response.headers['Content-Type'] = 'application/octet-stream'  # Set the content type to octet-stream
-        response.headers['Review-Id'] = str(review.id)  # Add the integer as a custom header
-        response.headers['Access-Control-Expose-Headers'] = 'Review-Id'
-        return response, 201
+        existing_review = Review.get_by_email(email.lower())
+        if not existing_review:
+            review = Review.create(name, email.lower(), company)
+            text = f"Hello {name.split()[0]}, thank you for joining the wait list. In 30 seconds, tell us your experience with {company}."
+            speech = vocalize(text)
+            response = make_response(speech)
+            response.headers['Content-Type'] = 'application/octet-stream'  # Set the content type to octet-stream
+            response.headers['Review-Id'] = str(review.id)  # Add the integer as a custom header
+            response.headers['Access-Control-Expose-Headers'] = 'Review-Id'
+            return response, 201
+        else:
+            text = f"Sorry {name.split()[0]}, it seem like you've already reviewed {existing_review.company} with your email."
+            speech = vocalize(text)
+            response = make_response(speech)
+            response.headers['Content-Type'] = 'application/octet-stream'  # Set the content type to octet-stream
+            return response, 200
     return {'status':'error', 'message':'name, email & company required'}, 400
 
 @bp.get('/review/<int:id>')

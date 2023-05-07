@@ -32,6 +32,10 @@ class Review(db.Model):
         return cls.query.filter_by(id=id, is_deleted=False).first()
     
     @classmethod
+    def get_by_email(cls, email):
+        return cls.query.filter_by(email=email, is_deleted=False).first()
+    
+    @classmethod
     def get_all(cls):
         return cls.query.filter(cls.is_deleted==False, cls.content!='', cls.content!=None).all()
     
